@@ -1,4 +1,4 @@
-from cgi import print_directory
+
 from Passageiro import Passageiro
 
 class MatrizEsparsa:
@@ -10,7 +10,7 @@ class MatrizEsparsa:
            ....
         '''
         self.__id = id
-        self.__matriz = [ [None] * colunas ] * linhas
+        self.__matriz = [[None for y in range(colunas)] for i in range(linhas)]
         self.__colunas = colunas
         self.__linhas = linhas
         self.__ocupacao = 0
@@ -60,9 +60,8 @@ class MatrizEsparsa:
         position_in_the_matriz = (numero_poltrona - 1) // self.__colunas
         try:
             assert position_in_the_matriz < self.__linhas
-            assentos_fileira = self.__matriz[position_in_the_matriz]
-            posicao_assento = assentos_fileira[(numero_poltrona - 1) % self.__colunas]
-            return (assentos_fileira, posicao_assento)
+            posicao_assento = (numero_poltrona - 1) % self.__colunas
+            return (position_in_the_matriz, posicao_assento)
 
         except AssertionError:
             raise IndexError("Assento não existe")
@@ -106,13 +105,15 @@ class MatrizEsparsa:
             print("Assento não existe")
 
 
-    def adicionar(self, passageiro: Passageiro, numero_poltrona:int)->bool:
+    def adicionar(self, passageiro, numero_poltrona:int)->bool:
         '''Retorna True se a inserção foi feita com sucesso, ou 
            False caso contrário'''
         try:
             posicao = self.pesquisar_assento(numero_poltrona)
             if self.__matriz[posicao[0]][posicao[1]] is None:
                 self.__matriz[posicao[0]][posicao[1]] = passageiro
+                self.__ocupacao += 1
+              
                 return True
             
             return False
@@ -136,6 +137,7 @@ class MatrizEsparsa:
                 self.__matriz[i][j] = None
 
     def mostrarAssentos(self):
+        "chama o método STR"
         '''Mostra o status de ocupacao de todos os assentos'''
         cadeiras = ""
         for i in range(self.__linhas):
@@ -153,6 +155,40 @@ class MatrizEsparsa:
                 
 
     def __str__(self):
-        return f'{self.__id}, {self.tamanho()} assentos.'
+        matriz_org = [[None for j in range(self.__linhas)] for i in range(self.__colunas)]
+        string = ""
+        for i in range(self.__linhas):
+            for j in range(self.__colunas):
+                matriz_org[j][i] = self.__matriz[i][j]
+            
+        for i in range(len(matriz_org)):
+            for j in range(len(matriz_org[i])):
+                if matriz_org[i][j] is None:
+                    string += "[ vazia ]"
+
+                else:
+                    string += f"[ { matriz_org[i][j] } ]"
+
+            string += "\n"
+
+        return string
+            
+        
+
+
+
+                
+
+matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 5)
+lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais", ]
+for i in range(len(lista)):
+    matrizesparsa.adicionar(lista[i], i + 1)
+
+print(f" tamanho do ônibus {matrizesparsa.tamanho() } ")
+print(f" tamanho do ônibus {matrizesparsa.estaVazia() } ")
+print(f" procurar cadeira disponível {matrizesparsa.procurarAssentoDisponivel() } ")
+print(f"Passageiro na poltrona {matrizesparsa.getPassageiro(7) } ")
+
+
 
 
