@@ -21,14 +21,14 @@ class MatrizEsparsa:
         '''Retorna a quantidade de células da matriz'''
         return self.__cadeiras_maximas
 
-    def estaVazia(self) -> bool:
+    def isEmpty(self) -> bool:
         return self.__ocupacao == 0 
         
 
-    def estaCheio(self) -> bool:
+    def isFull(self) -> bool:
         return self.__ocupacao == self.__cadeiras_maximas
 
-    def procurarAssentoDisponivel(self)->int:
+    def searchSeatAvailable(self)->int:
         '''Retorna um assento vazio disponível, se houver.
            Se não houver assento disponível, lançar uma exceção'''
         id_poltrona = 0
@@ -45,18 +45,18 @@ class MatrizEsparsa:
             raise IndexError("Não há assentos disponíveis")
 
 
-    def pesquisar(self, numero_poltrona:int)->Passageiro:
+    def search(self, numero_poltrona:int)->Passageiro:
         '''Retorna os dados do passageiro alocado em um
            determinado assento'''
         try:
-            posicao = self.pesquisar_assento(numero_poltrona)
+            posicao = self.searchSeat(numero_poltrona)
             passageiro = str(self.__matriz[posicao[0]][posicao[1]])
             return passageiro
             
         except IndexError:
             raise IndexError("Assento não existe")
 
-    def pesquisar_assento(self, numero_poltrona:int)->tuple:
+    def searchSeat(self, numero_poltrona:int)->tuple:
         position_in_the_matriz = (numero_poltrona - 1) // self.__colunas
         try:
             assert position_in_the_matriz < self.__linhas
@@ -67,7 +67,7 @@ class MatrizEsparsa:
             raise IndexError("Assento não existe")
 
 
-    def pesquisaPassageiro(self, nome:str )->int:
+    def searchPassenger(self, nome:str )->int:
         '''Retorna o número da poltrona em que um determinado
            passageiro está ocupando'''
         id_poltrona = 0
@@ -81,19 +81,19 @@ class MatrizEsparsa:
         except AssertionError:        
             raise IndexError("Passageiro não encontrado")
 
-    def getPassageiro(self, num_poltrona: int)->Passageiro:
+    def getPassenger(self, num_poltrona: int)->Passageiro:
         try:
-            posicao = self.pesquisar_assento(num_poltrona)
+            posicao = self.searchSeat(num_poltrona)
             return self.__matriz[posicao[0]][posicao[1]]
               
         except IndexError:
             raise IndexError("Assento não existe")
 
-    def trocarPoltrona(self, poltrona_atual:int, nova_poltrona:int)->bool:
+    def switchSeat(self, poltrona_atual:int, nova_poltrona:int)->bool:
         '''Troca o passageiro de uma poltrona para outra'''
         try:
-            posicao_poltrona_atual = self.pesquisar_assento(poltrona_atual)
-            posicao_nova_poltrona = self.pesquisar_assento(nova_poltrona)
+            posicao_poltrona_atual = self.searchSeat(poltrona_atual)
+            posicao_nova_poltrona = self.searchSeat(nova_poltrona)
             if self.__matriz[posicao_nova_poltrona[0]][posicao_nova_poltrona[1]] is None:
                 self.__matriz[posicao_nova_poltrona[0]][posicao_nova_poltrona[1]] = self.__matriz[posicao_poltrona_atual[0]][posicao_poltrona_atual[1]]
                 self.__matriz[posicao_poltrona_atual[0]][posicao_poltrona_atual[1]] = None
@@ -105,11 +105,11 @@ class MatrizEsparsa:
             print("Assento não existe")
 
 
-    def adicionar(self, passageiro, numero_poltrona:int)->bool:
+    def add(self, passageiro, numero_poltrona:int)->bool:
         '''Retorna True se a inserção foi feita com sucesso, ou 
            False caso contrário'''
         try:
-            posicao = self.pesquisar_assento(numero_poltrona)
+            posicao = self.searchSeat(numero_poltrona)
             if self.__matriz[posicao[0]][posicao[1]] is None:
                 self.__matriz[posicao[0]][posicao[1]] = passageiro
                 self.__ocupacao += 1
@@ -122,7 +122,7 @@ class MatrizEsparsa:
             raise IndexError("Assento não existe")
         
 
-    def remover(self, numero_poltrona:int)->Passageiro:
+    def remove(self, numero_poltrona:int)->Passageiro:
         try:
             posicao = self.perquisar_assento(numero_poltrona)
             self.__matriz[posicao[0]][posicao[1]] = None
@@ -130,13 +130,13 @@ class MatrizEsparsa:
         except IndexError: 
             raise IndexError("Assento não existe")
 
-    def esvaziar(self):
+    def empty(self):
         '''Esvazia a matriz esparsa'''
         for i in range(len(self.__matriz)):
             for j in range(len(self.__matriz[i])):
                 self.__matriz[i][j] = None
 
-    def mostrarAssentos(self):
+    def showSeat(self):
         "chama o método STR"
         '''Mostra o status de ocupacao de todos os assentos'''
         cadeiras = ""
@@ -182,12 +182,12 @@ class MatrizEsparsa:
 matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 5)
 lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais", ]
 for i in range(len(lista)):
-    matrizesparsa.adicionar(lista[i], i + 1)
+    matrizesparsa.add(lista[i], i + 1)
 
 print(f" tamanho do ônibus {matrizesparsa.tamanho() } ")
-print(f" tamanho do ônibus {matrizesparsa.estaVazia() } ")
-print(f" procurar cadeira disponível {matrizesparsa.procurarAssentoDisponivel() } ")
-print(f"Passageiro na poltrona {matrizesparsa.getPassageiro(7) } ")
+print(f" tamanho do ônibus {matrizesparsa.isEmpty() } ")
+print(f" procurar cadeira disponível {matrizesparsa.searchSeatAvailable() } ")
+print(f"Passageiro na poltrona {matrizesparsa.getPassenger(7) } ")
 
 
 

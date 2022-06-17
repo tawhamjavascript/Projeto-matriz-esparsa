@@ -11,7 +11,7 @@ class Empresa:
     def set_bus(self, nome, rows, cols):
         self.bus.update({nome: MatrizEsparsa(rows, cols)})
 
-    def quantidade_assentos(self, bus_name) -> int:
+    def quantity_seats(self, bus_name) -> int:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
@@ -25,7 +25,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return bus.estaVazia()
+            return bus.isEmpty()
         
         except AssertionError:
             raise OnibusError("Onibus não existe")
@@ -34,7 +34,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.estaCheio()
+            return self.__bus.isFull()
         
         except AssertionError:
             raise OnibusError("Onibus não existe")
@@ -45,7 +45,7 @@ class Empresa:
         
         try:
             assert bus is not None
-            return bus.procurarAssentoDisponivel()
+            return bus.searchSeatAvailable()
         
         except IndexError:
             raise AssentoError("Não há assentos disponíveis")
@@ -70,7 +70,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.pesquisaPassageiro(nome)
+            return self.__bus.searchPassenger(nome)
 
         except IndexError:
             raise PasengerError("Passageiro não existe")
@@ -96,7 +96,7 @@ class Empresa:
         try:
             assert bus is not None
             assert number_seat_current > 0 and number_seat_current <= self.__bus.tamanho() and number_seat_new > 0 and number_seat_new <= self.__bus.tamanho(), AssentoError("Assento inexistente")
-            resultado =  self.__bus.trocarAssento(number_seat_current, number_seat_new)
+            resultado =  self.__bus.switchSeat(number_seat_current, number_seat_new)
             if resultado:
                 return f"troca bem sucedida"
 
@@ -115,7 +115,7 @@ class Empresa:
         try:
             assert bus is not None
             assert number_seat > 0 and number_seat <= self.__bus.tamanho(), AssentoError("Assento inexistente")
-            resultado = self.__bus.adicionar(passenger, number_seat)
+            resultado = self.__bus.add(passenger, number_seat)
             if resultado:
                 return f"Passageiro alocado no assento {number_seat}"
 
@@ -145,7 +145,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            bus.esvaziar()
+            bus.empty()
 
         except AssertionError:
             raise OnibusError("Onibus não existe")
@@ -154,7 +154,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.mostrarAssentos()
+            return self.__bus.showSeat()
 
         except AssertionError:
             raise OnibusError("Onibus não existe")
