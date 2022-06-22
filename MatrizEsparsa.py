@@ -177,17 +177,16 @@ class MatrizEsparsa:
 
 
 
-                
+if __name__ == '__main__':
+    matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 5)
+    lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais", ]
+    for i in range(len(lista)):
+        matrizesparsa.add(lista[i], i + 1)
 
-matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 5)
-lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais", ]
-for i in range(len(lista)):
-    matrizesparsa.add(lista[i], i + 1)
-
-print(f" tamanho do ônibus {matrizesparsa.tamanho() } ")
-print(f" tamanho do ônibus {matrizesparsa.isEmpty() } ")
-print(f" procurar cadeira disponível {matrizesparsa.searchSeatAvailable() } ")
-print(f"Passageiro na poltrona {matrizesparsa.getPassenger(7) } ")
+    print(f" tamanho do ônibus {matrizesparsa.tamanho() } ")
+    print(f" tamanho do ônibus {matrizesparsa.isEmpty() } ")
+    print(f" procurar cadeira disponível {matrizesparsa.searchSeatAvailable() } ")
+    print(f"Passageiro na poltrona {matrizesparsa.getPassenger(7) } ")
 
 
 

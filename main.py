@@ -3,13 +3,29 @@ from AssentoError import AssentoError
 from PasengerError import PasengerError
 from Passageiro import Passageiro
 
+def check_if_pid_is_avaiable(pid:int)->bool:
+  pid_avaiable_list = [1,2,3,4,5,6,7,8,9,10]
+  if pid in pid_avaiable_list:
+    return True
+  return False
 
+def decision_company(pid:int, company:Empresa):
+  if pid == 1:
+    bus_name = input("Informe o ônibus")
+    passanger = input("Informe o passageiro")
+    number_seat= int(input("Informe o número da cadeira"))
+    company.add_passenger(bus_name, passanger, number_seat)
+  elif pid == 2:
+    bus_name = input("Informe o ônibus")
+    number_seat = int(input("Informe o número da cadeira"))
+    company.remove_passenger(bus_name, number_seat)
+  elif pid == 3:
+    bus_name = input("Informe o ônibus: ")
+    passanger = input("Informe o nome do passageiro: ")
+    company.search_passenger(bus_name, passanger)
 
-
-
-def main():
-  while True:
-    print('''O que deseja realizar?
+def show_options()->str:
+  return f'''O que deseja realizar?
   [1] - Cadastrar passageiro
   [2] - Remover passageiro
   [3] - Procurar passageiro
@@ -20,35 +36,20 @@ def main():
   [8] - Cadastrar ônibus
   [9] - Procuara assento disponível
   [10] - Esvaziar poltronas
-  [999] - Encerra o programa''')
+  [999] - Encerra o programa'''
 
+def main():
+  while True:
+    print(show_options())
+    
     pid = int(input('>Inserir comando: '))
     
-    if pid == 1:
-      user_input = input()
-    elif pid == 2:
+    if pid == 999: break
+
+    if check_if_pid_is_avaiable(pid):
       pass
-    elif pid == 3:
-      pass
-    elif pid == 4:
-      pass
-    elif pid == 5:
-      pass
-    elif pid == 6:
-      pass
-    elif pid == 7:
-      pass
-    elif pid == 8:
-      pass
-    elif pid == 9:
-      pass
-    elif pid == 10:
-      pass
-    elif pid == 999:
-      print("Programa encerrado!")
-      break
     else:
-      print("Comando não encontrado")
+      print('Comando não encontrado')
 
 if __name__ == '__main__':
   main()
