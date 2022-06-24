@@ -9,20 +9,38 @@ def check_if_pid_is_avaiable(pid:int)->bool:
     return True
   return False
 
-def decision_company(pid:int, company:Empresa):
+def decision_company(pid:int, company:Empresa)->None:
+
+  bus_name = input("Informe o ônibus")
+
   if pid == 1:
-    bus_name = input("Informe o ônibus")
     passanger = input("Informe o passageiro")
-    number_seat= int(input("Informe o número da cadeira"))
+    number_seat= int(input("Informe o número do assento"))
     company.add_passenger(bus_name, passanger, number_seat)
   elif pid == 2:
-    bus_name = input("Informe o ônibus")
-    number_seat = int(input("Informe o número da cadeira"))
+    number_seat = int(input("Informe o número do assento"))
     company.remove_passenger(bus_name, number_seat)
   elif pid == 3:
-    bus_name = input("Informe o ônibus: ")
-    passanger = input("Informe o nome do passageiro: ")
-    company.search_passenger(bus_name, passanger)
+    passanger_name = input("Informe o nome do passageiro: ")
+    company.search_passenger(bus_name, passanger_name)
+  elif pid == 4:
+    number_seat_current = int(input("Informe o número atual do assento do passageiro: "))
+    number_seat_new = int(input("Informe o novo número do assento do passageiro: "))
+    company.change_seat(bus_name, number_seat_current, number_seat_new)
+  elif pid == 5:
+    #falta método para mostrar passageiros no ônibus
+    pass
+  elif pid == 6:
+    company.quantity_seats(bus_name)
+  elif pid == 7:
+    company.show_seats(bus_name)
+  elif pid == 8:
+    #falta método para cadastrar ônibus
+    pass
+  elif pid == 9:
+    print(company.search_seat_available(bus_name))
+  elif pid == 10:
+    company.clear_bus(bus_name)
 
 def show_options()->str:
   return f'''O que deseja realizar?
@@ -34,11 +52,12 @@ def show_options()->str:
   [6] - Consultar quantidade de assentos
   [7] - Mostrar assentos
   [8] - Cadastrar ônibus
-  [9] - Procuara assento disponível
+  [9] - Procurar assento disponível
   [10] - Esvaziar poltronas
   [999] - Encerra o programa'''
 
 def main():
+  company = Empresa()
   while True:
     print(show_options())
     
@@ -47,9 +66,8 @@ def main():
     if pid == 999: break
 
     if check_if_pid_is_avaiable(pid):
-      pass
+      decision_company(pid, company)
     else:
       print('Comando não encontrado')
 
-if __name__ == '__main__':
-  main()
+main()

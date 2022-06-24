@@ -187,7 +187,5 @@ if __name__ == '__main__':
     print(f" tamanho do ônibus {matrizesparsa.isEmpty() } ")
     print(f" procurar cadeira disponível {matrizesparsa.searchSeatAvailable() } ")
     print(f"Passageiro na poltrona {matrizesparsa.getPassenger(7) } ")
-
-
-
+    print(matrizesparsa)
 
