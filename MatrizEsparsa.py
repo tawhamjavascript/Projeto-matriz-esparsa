@@ -2,7 +2,7 @@
 from Passageiro import Passageiro
 
 class MatrizEsparsa:
-    def __init__(self, id:str, linhas:int, colunas:int):
+    def __init__(self, id:str, linhas: int, colunas:int):
         '''A numeracao das poltronas é definida da seguinte forma:
                       Poltronas
            Fileira 1: 01 02    03 04
@@ -152,34 +152,64 @@ class MatrizEsparsa:
             cadeiras += "\n"
 
         return cadeiras
-                
 
     def __str__(self):
-        matriz_org = [[None for j in range(self.__linhas)] for i in range(self.__colunas)]
+        #linhas = self.__cadeiras_maximas // 4 + (1 if self.__cadeiras_maximas % 4 != 0 else 0)
+        position_matriz = 0
+        position_array = 0
+        matriz_org = [[] for i in range(4)]
         string = ""
-        for i in range(self.__linhas):
-            for j in range(self.__colunas):
-                matriz_org[j][i] = self.__matriz[i][j]
-            
-        for i in range(len(matriz_org)):
-            for j in range(len(matriz_org[i])):
-                if matriz_org[i][j] is None:
-                    string += "[ vazia ]"
+        numeracao_cadeira = 1
+        for i in range(len(self.__matriz)):
+            for j in range(len(self.__matriz[i])):
+                if position_matriz == 4:
+                    position_matriz = 0
+                matriz_org[position_matriz].append((numeracao_cadeira, self.__matriz[i][j]))
+                position_matriz += 1
+                numeracao_cadeira += 1
 
-                else:
-                    string += f"[ { matriz_org[i][j] } ]"
-
+        for i in range(4):
+            string += "".join([f"{matriz_org[i][j][0]} [ {matriz_org[i][j][1]} ] | " for j in range(len(matriz_org[i]))])
             string += "\n"
 
         return string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
         
 
 
 
 if __name__ == '__main__':
-    matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 5)
-    lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais", ]
+    matrizesparsa = MatrizEsparsa("Bayeux - tambay", 2, 5)
+    #  , "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais",
+    lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe"]
     for i in range(len(lista)):
         matrizesparsa.add(lista[i], i + 1)
 
@@ -188,4 +218,5 @@ if __name__ == '__main__':
     print(f" procurar cadeira disponível {matrizesparsa.searchSeatAvailable() } ")
     print(f"Passageiro na poltrona {matrizesparsa.getPassenger(7) } ")
     print(matrizesparsa)
+
 
