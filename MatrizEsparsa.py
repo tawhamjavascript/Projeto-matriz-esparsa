@@ -2,7 +2,7 @@
 from Passageiro import Passageiro
 
 class MatrizEsparsa:
-    def __init__(self, id:str, linhas: int, colunas:int):
+    def __init__(self, id: str, linhas: int, colunas:int):
         '''A numeracao das poltronas é definida da seguinte forma:
                       Poltronas
            Fileira 1: 01 02    03 04
@@ -155,22 +155,28 @@ class MatrizEsparsa:
 
     def __str__(self):
         #linhas = self.__cadeiras_maximas // 4 + (1 if self.__cadeiras_maximas % 4 != 0 else 0)
-        position_matriz = 0
-        position_array = 0
-        matriz_org = [[] for i in range(4)]
         string = ""
-        numeracao_cadeira = 1
-        for i in range(len(self.__matriz)):
-            for j in range(len(self.__matriz[i])):
-                if position_matriz == 4:
-                    position_matriz = 0
-                matriz_org[position_matriz].append((numeracao_cadeira, self.__matriz[i][j]))
-                position_matriz += 1
-                numeracao_cadeira += 1
-
+        cadeira = 0
+        posicao_matriz = 0
+        posicao_array = 0
         for i in range(4):
-            string += "".join([f"{matriz_org[i][j][0]} [ {matriz_org[i][j][1]} ] | " for j in range(len(matriz_org[i]))])
-            string += "\n"
+            cadeira = i + 1
+            for j in range(self.__colunas):
+                if cadeira == (i + 1):
+                    posicao_matriz, posicao_array = self.searchSeat(cadeira)
+
+                else:
+                    posicao_matriz, posicao_array = self.searchSeat(cadeira)
+
+                string += f"|{cadeira}|"
+                cadeira += 4
+
+
+                valor = self.__matriz[posicao_matriz][posicao_array]
+
+                string += f" [{valor[0:3] if valor is not None else '   '}] "
+
+            string += '\n'
 
         return string
 
@@ -185,29 +191,18 @@ class MatrizEsparsa:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+        """
+        for j in range(len(self.__matriz[0])):
+            for i in range(len(self.__matriz)):
+                string += f"[{self.__matriz[i][j][0:3] if self.__matriz[i][j] is not None else  ' '}]"
         
-
+        return string
+        
+        """
 
 
 if __name__ == '__main__':
-    matrizesparsa = MatrizEsparsa("Bayeux - tambay", 2, 5)
+    matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 12)
     #  , "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais",
     lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe"]
     for i in range(len(lista)):
