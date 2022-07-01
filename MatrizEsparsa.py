@@ -2,30 +2,32 @@
 from Passageiro import Passageiro
 
 class MatrizEsparsa:
-    def __init__(self, id: str, linhas: int, colunas:int):
+    def __init__(self, id: str, colunas: int):
         '''A numeracao das poltronas é definida da seguinte forma:
                       Poltronas
            Fileira 1: 01 02    03 04
            Fileira 2: 05 06    07 08
            ....
         '''
-        self.__id = id
-        self.__matriz = [[None for y in range(colunas)] for i in range(linhas)]
-        self.__colunas = colunas
-        self.__linhas = linhas
-        self.__ocupacao = 0
-        self.__cadeiras_maximas = self.__colunas * self.__linhas
+        self.__id = id  # pegar a linha do ônibus
+        self.__matriz = [[None for y in range(colunas)] for i in range(4)]  # cria uma matriz
+        self.__colunas = colunas  # guarda a quantidade de colunas
+        self.__linhas = 4  # guarda a quantidade de fileiras
+        self.__ocupacao = 0     # guarda a quantidade de cadeiras ocupadas
+        self.__cadeiras_maximas = self.__colunas * self.__linhas    # guarda a quantidade de cadeiras máximas
   
     
     def tamanho(self) -> int:
-        '''Retorna a quantidade de células da matriz'''
+        """ Retorna a quantidade de cadeiras máximas"""
         return self.__cadeiras_maximas
 
     def isEmpty(self) -> bool:
+        """ Verifica se a matriz está vazia """
         return self.__ocupacao == 0 
         
 
     def isFull(self) -> bool:
+        """ Verifica se a matriz está cheia"""
         return self.__ocupacao == self.__cadeiras_maximas
 
     def searchSeatAvailable(self)->int:
@@ -56,7 +58,16 @@ class MatrizEsparsa:
         except IndexError:
             raise IndexError("Assento não existe")
 
-    def searchSeat(self, numero_poltrona:int)->tuple:
+    def searchSeat(self, numero_poltrona: int) -> tuple:
+        """
+        Verifica se o assento existe na matriz, se existir retorna a posição dele na matriz
+
+        :param numero_poltrona: recebe um numero inteiro
+
+        :raise IndexError: caso o assento não esteja na matriz
+        :return: retorna uma tupla contendo a posição da matriz e do array
+
+        """
         position_in_the_matriz = (numero_poltrona - 1) // self.__colunas
         try:
             assert position_in_the_matriz < self.__linhas
@@ -67,9 +78,13 @@ class MatrizEsparsa:
             raise IndexError("Assento não existe")
 
 
-    def searchPassenger(self, nome:str )->int:
-        '''Retorna o número da poltrona em que um determinado
-           passageiro está ocupando'''
+    def searchPassenger(self, nome: str )->int:
+        '''
+        Verifica se o passageiro está no ônibus
+        :param nome: recebe uma string contendo o nome do passageiro
+        :raise IndexError: caso o passageiro não seja encontrado
+
+        '''
         id_poltrona = 0
         try:
             for i in range(self.__matriz):
@@ -81,7 +96,14 @@ class MatrizEsparsa:
         except AssertionError:        
             raise IndexError("Passageiro não encontrado")
 
-    def getPassenger(self, num_poltrona: int)->Passageiro:
+    def getPassenger(self, num_poltrona: int) -> Passageiro:
+        """
+        Verifica se na poltrona existe passageiro
+
+        :param num_poltrona: recebe um inteiro, contendo a poltrona
+        :raise IndexError: Caso o assento não exista na matriz
+        :return: O objeto passageiro
+        """
         try:
             posicao = self.searchSeat(num_poltrona)
             return self.__matriz[posicao[0]][posicao[1]]
@@ -90,7 +112,14 @@ class MatrizEsparsa:
             raise IndexError("Assento não existe")
 
     def switchSeat(self, poltrona_atual:int, nova_poltrona:int)->bool:
-        '''Troca o passageiro de uma poltrona para outra'''
+        '''
+        Troca o passageiro de uma poltrona para outra
+
+        :param poltrona_atual: recebe um int, contendo a poltrona
+        :param nova_poltrona: recebe um int, contendo a poltrona
+        :raise IndexError: Caso o assento não exista na matriz
+        :return: True se for possível a troca de passageiro ou False se não for possível a troca
+        '''
         try:
             posicao_poltrona_atual = self.searchSeat(poltrona_atual)
             posicao_nova_poltrona = self.searchSeat(nova_poltrona)
@@ -106,8 +135,15 @@ class MatrizEsparsa:
 
 
     def add(self, passageiro, numero_poltrona:int)->bool:
-        '''Retorna True se a inserção foi feita com sucesso, ou 
-           False caso contrário'''
+        '''
+        Adiciona um passageiro a poltrona
+
+        :param passageiro: Recebe o objeto Passageiro
+        :param numero_poltrona: recebe um int, com a numeração da poltrona
+        :raise IndexError: Caso a poltrona não exista
+        :return: True se ocorrer a inserção, caso contrário False
+
+        '''
         try:
             posicao = self.searchSeat(numero_poltrona)
             if self.__matriz[posicao[0]][posicao[1]] is None:
@@ -122,7 +158,14 @@ class MatrizEsparsa:
             raise IndexError("Assento não existe")
         
 
-    def remove(self, numero_poltrona:int)->Passageiro:
+    def remove(self, numero_poltrona:int) -> Passageiro:
+        """
+        Remove um passageiro do assento
+
+        :param numero_poltrona: recebe um int, contendo o número da cadeira
+        :raise IndexError: Caso o assento não exista
+        :return: Um objeto do tipo Passageiro
+        """
         try:
             posicao = self.perquisar_assento(numero_poltrona)
             self.__matriz[posicao[0]][posicao[1]] = None
@@ -137,7 +180,6 @@ class MatrizEsparsa:
                 self.__matriz[i][j] = None
 
     def showSeat(self):
-        "chama o método STR"
         '''Mostra o status de ocupacao de todos os assentos'''
         cadeiras = ""
         for i in range(self.__linhas):
@@ -154,7 +196,11 @@ class MatrizEsparsa:
         return cadeiras
 
     def __str__(self):
-        #linhas = self.__cadeiras_maximas // 4 + (1 if self.__cadeiras_maximas % 4 != 0 else 0)
+        """
+        Método que representa o ônibus na horizontal
+
+        :return: Uma string, contendo a representação do ônibus na horizontal
+        """
         string = ""
         cadeira = 0
         posicao_matriz = 0
@@ -170,41 +216,16 @@ class MatrizEsparsa:
 
                 string += f"|{cadeira}|"
                 cadeira += 4
-
-
                 valor = self.__matriz[posicao_matriz][posicao_array]
-
                 string += f" [{valor[0:3] if valor is not None else '   '}] "
 
             string += '\n'
 
         return string
 
-
-
-
-
-
-
-
-
-
-
-
-        """
-        for j in range(len(self.__matriz[0])):
-            for i in range(len(self.__matriz)):
-                string += f"[{self.__matriz[i][j][0:3] if self.__matriz[i][j] is not None else  ' '}]"
-        
-        return string
-        
-        """
-
-
 if __name__ == '__main__':
     matrizesparsa = MatrizEsparsa("Bayeux - tambay", 4, 12)
-    #  , "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais",
-    lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe"]
+    lista = ["Dente", "Graves", "Disputa", "Punho", "Varinha", "Menina", "Amor", "Ataques", "Macaco", "Caribe", "Rural", "Aranha", "Inocente", "Amanhecer", "Ombreiras", "Escape", "Capacho", "Folha", "Animais"]
     for i in range(len(lista)):
         matrizesparsa.add(lista[i], i + 1)
 
