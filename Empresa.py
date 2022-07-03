@@ -9,10 +9,12 @@ class Empresa:
     def __init__(self):
         self.__bus = {}
 
-    def get_bus(self):
+    def get_bus(self)->dict:
+        """ Retorna um dicionário contendo todos os ônibus cadastrados"""
         return self.__bus
 
     def create_txt(self, bus_name):
+        """ Insere uma relação dos passageiros de uma determinada viajem em um arquivo chamado passageiro.txt"""
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None

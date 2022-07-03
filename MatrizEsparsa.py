@@ -21,6 +21,7 @@ class MatrizEsparsa:
         return self.__cadeiras_maximas
 
     def getId(self):
+        ''' Retorna o id da poltrona'''
         return self.__id
 
     def isEmpty(self) -> bool:
@@ -112,6 +113,10 @@ class MatrizEsparsa:
             raise IndexError("Passageiro não encontrado")
     
     def getInfoAllPassengers(self)->dict:
+        '''
+        Pega as insformções de todos os passageiros
+        :return: retorna um dicionário com as informações dos passageiros(número da poltrona, nome do passageiro e rg)
+        '''
         id_poltrona = 0
         informacoes_passageiros = {}
         for i in range(len(self.__matriz)):
