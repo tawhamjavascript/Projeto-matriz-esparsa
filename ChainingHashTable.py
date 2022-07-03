@@ -137,123 +137,125 @@ class ChainingHashTable:
 # ------------------------------------------------ #
 #  Programa Principal 
 # ------------------------------------------------ #
-size = int(input("Informe o tamanho da tabela hash desejada: "))
-cht = ChainingHashTable(size)
+if __name__ == '__main__':
+        
+    size = int(input("Informe o tamanho da tabela hash desejada: "))
+    cht = ChainingHashTable(size)
 
 
-# Armazenando elementos na tabela Hash
-cht.put(12,'alex')
-cht.displayTable()
-input()
+    # Armazenando elementos na tabela Hash
+    cht.put(12,'alex')
+    cht.displayTable()
+    input()
 
-# Aqui, tenta-se inserir a mesma chave. Como a chave já existe, atualiza o valor
-cht.put(12,'alex sandro')
-cht.displayTable()
-input()
+    # Aqui, tenta-se inserir a mesma chave. Como a chave já existe, atualiza o valor
+    cht.put(12,'alex sandro')
+    cht.displayTable()
+    input()
 
-cht.put(31,'nathan')
-cht.displayTable()
-input()
+    cht.put(31,'nathan')
+    cht.displayTable()
+    input()
 
-cht.put(90,'alice')
-cht.displayTable()
-input()
+    cht.put(90,'alice')
+    cht.displayTable()
+    input()
 
-cht.put(28,'matheus')
-cht.displayTable()
-input()
+    cht.put(28,'matheus')
+    cht.displayTable()
+    input()
 
-cht.put(88,'duda')
-cht.displayTable()
-input()
+    cht.put(88,'duda')
+    cht.displayTable()
+    input()
 
-cht.put(40,'naty')
-cht.displayTable()
-input()
+    cht.put(40,'naty')
+    cht.displayTable()
+    input()
 
-cht.put(77,'alessandra')
-cht.displayTable()
-input()
+    cht.put(77,'alessandra')
+    cht.displayTable()
+    input()
 
-cht.put(26,'dan')
-cht.displayTable()
-input()
+    cht.put(26,'dan')
+    cht.displayTable()
+    input()
 
-cht.put(17,'jessika')
-cht.displayTable()
-input()
+    cht.put(17,'jessika')
+    cht.displayTable()
+    input()
 
-# A chamada ao método get() gera uma exceção se a chave não existir.
-#print('get():', cht.get(111))
+    # A chamada ao método get() gera uma exceção se a chave não existir.
+    #print('get():', cht.get(111))
 
-cht.remove(12)
-cht.displayTable()
+    cht.remove(12)
+    cht.displayTable()
 
-# A chamada ao método remove() gera uma exceção se a chave não existir.
-#cht.get(111)
+    # A chamada ao método remove() gera uma exceção se a chave não existir.
+    #cht.get(111)
 
- 
-
-''' 
-# printing position of elements
-print("The position of element 31 is : " + str(table1.search(31)))
-print("The position of element 28 is : " + str(table1.search(28)))
-print("The position of element 90 is : " + str(table1.search(90)))
-print("The position of element 77 is : " + str(table1.search(77)))
-print("The position of element 1 is : " + str(table1.search(1)))
-print("\nTotal number of comaprisons done for searching = " + str(table1.comparisons))
-print()
- 
-table1.remove(90)
-table1.remove(12)
- 
-table1.display()
-
-
-       
     
-     # method that searches for an element in the table
-    # returns position of element if found
-    # else returns False
-    def search(self, element):
-        found = False
-        position = self.h1(element)
-        self.comparisons += 1
-       
-        if(self.table[position] == element):
-            return position
-       
-        # if element is not found at position returned hash function
-        # then we search element using double hashing
-        else:
-            limit = 50
-            i = 2
-            newPosition = position
-            # start a loop to find the position
-            while i <= limit:
-                # calculate new position by double Hashing
-                position = (i*self.h1(element) + self.h2(element)) % self.size
-                self.comparisons += 1
-                # if element at newPosition is equal to the required element
-               
-               
-                if self.table[position] == element:
-               
-                    found = True
-                    break
-               
-                elif self.table[position] == 0:
-                    found = False
-                    break
-                   
-                else:
-                    # as the position is not empty increase i
-                    i += 1
-            if found:
+
+    ''' 
+    # printing position of elements
+    print("The position of element 31 is : " + str(table1.search(31)))
+    print("The position of element 28 is : " + str(table1.search(28)))
+    print("The position of element 90 is : " + str(table1.search(90)))
+    print("The position of element 77 is : " + str(table1.search(77)))
+    print("The position of element 1 is : " + str(table1.search(1)))
+    print("\nTotal number of comaprisons done for searching = " + str(table1.comparisons))
+    print()
+    
+    table1.remove(90)
+    table1.remove(12)
+    
+    table1.display()
+
+
+        
+        
+        # method that searches for an element in the table
+        # returns position of element if found
+        # else returns False
+        def search(self, element):
+            found = False
+            position = self.h1(element)
+            self.comparisons += 1
+        
+            if(self.table[position] == element):
                 return position
+        
+            # if element is not found at position returned hash function
+            # then we search element using double hashing
             else:
-                print("Element not Found")
-                return found
-'''
- 
- 
+                limit = 50
+                i = 2
+                newPosition = position
+                # start a loop to find the position
+                while i <= limit:
+                    # calculate new position by double Hashing
+                    position = (i*self.h1(element) + self.h2(element)) % self.size
+                    self.comparisons += 1
+                    # if element at newPosition is equal to the required element
+                
+                
+                    if self.table[position] == element:
+                
+                        found = True
+                        break
+                
+                    elif self.table[position] == 0:
+                        found = False
+                        break
+                    
+                    else:
+                        # as the position is not empty increase i
+                        i += 1
+                if found:
+                    return position
+                else:
+                    print("Element not Found")
+                    return found
+    '''
+    
+    

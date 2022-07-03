@@ -17,7 +17,7 @@ class Empresa:
         :param numero_cadeira: recebe um int, contendo a quantidade de cadeiras
 
         """
-        self.bus.update({nome: MatrizEsparsa(nome, cols)})
+        self.__bus.update({nome: MatrizEsparsa(nome, cols)})
 
     def quantity_seats(self, bus_name) -> int:
         """
