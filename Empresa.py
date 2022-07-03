@@ -1,3 +1,4 @@
+from ast import Try
 from MatrizEsparsa import MatrizEsparsa
 from AssentoError import AssentoError
 from PasengerError import PasengerError
@@ -7,6 +8,30 @@ from OnibusError import OnibusError
 class Empresa:
     def __init__(self):
         self.__bus = {}
+
+    def get_bus(self):
+        return self.__bus
+
+    def create_txt(self, bus_name):
+        bus = self.__bus.get(bus_name)
+        try:
+            assert bus is not None
+            infoPassengers = bus.getInfoAllPassengers()
+            tamanho_infoPassengers = len(infoPassengers)
+            string = ""
+            if tamanho_infoPassengers == 0:
+                string += f"Linha: {bus.getId()} - ônibus vazio"
+            else:                    
+                string += f"Linha: {bus.getId()}\n"
+                string += "Poltrona;passageiro;rg\n"
+                for poltrona, passageiro in infoPassengers.items():
+                    string += f"{poltrona};{passageiro[0]};{passageiro[1]}\n"
+                    
+            with open('passageiros.txt', 'w', encoding="utf-8") as file:
+                file.write(string)
+        except AssertionError:
+            raise OnibusError("Ônibus não exite")
+
 
     def set_bus(self, nome, numero_cadeira):
         cols = numero_cadeira // 4
@@ -257,3 +282,15 @@ class Empresa:
 
         except AssertionError:
             raise OnibusError("Onibus não existe")
+
+if __name__ == '__main__':
+    empresa = Empresa()
+    taw = Passageiro('taw', 123)
+    ric = Passageiro('ric', 321)
+    empresa.set_bus("jp", 40)
+    empresa.add_passenger("jp", taw, 2)
+    empresa.set_bus("cg", 40)
+    empresa.add_passenger("cg", ric, 2)
+
+    teste = empresa.get_bus()
+    print(teste['jp'].getInfoAllPassengers())

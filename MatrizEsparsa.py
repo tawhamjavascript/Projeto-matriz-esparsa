@@ -20,6 +20,9 @@ class MatrizEsparsa:
         """ Retorna a quantidade de cadeiras máximas"""
         return self.__cadeiras_maximas
 
+    def getId(self):
+        return self.__id
+
     def isEmpty(self) -> bool:
         """ Verifica se a matriz está vazia """
         return self.__ocupacao == 0 
@@ -107,6 +110,18 @@ class MatrizEsparsa:
             assert id_poltrona != self.__cadeiras_maximas
         except AssertionError:        
             raise IndexError("Passageiro não encontrado")
+    
+    def getInfoAllPassengers(self)->dict:
+        id_poltrona = 0
+        informacoes_passageiros = {}
+        for i in range(len(self.__matriz)):
+            for j in range(len(self.__matriz[i])):
+                id_poltrona += 1
+                if self.__matriz[i][j] is not None:
+                    passenger = self.getPassenger(id_poltrona)
+                    nome_passenger, rg_passenger = passenger.split('RG')
+                    informacoes_passageiros.update({id_poltrona: [nome_passenger, rg_passenger]})
+        return informacoes_passageiros
 
     def getPassenger(self, num_poltrona: int) -> str:
         """
@@ -114,7 +129,7 @@ class MatrizEsparsa:
 
         :param num_poltrona: recebe um inteiro, contendo a poltrona
         :raise IndexError: Caso o assento não exista na matriz
-        :return: O objeto passageiro
+        :return: O str do passageiro
         """
         try:
             assert num_poltrona > 0

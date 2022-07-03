@@ -6,7 +6,6 @@ from Passageiro import Passageiro
 
 empresa = Empresa()
 
-
 comandos = {
     1: "Adicionar passageiro",
     2: "remover passageiro",
@@ -18,8 +17,9 @@ comandos = {
     8: "Assento disponível",
     9: "Esvaziar ônibus",
     10: "Assento tem passageiro",
+    11: "Salvar informação",
     999: "Exit"
-}
+}   
 
 while True:
     print(f'''-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -32,8 +32,9 @@ while True:
   [6]   - Mostrar assentos
   [7]   - Cadastrar ônibus
   [8]   - Procurar assento disponível
-  [9]  - Esvaziar poltronas
-  [10] - Ver passageiro de uma poltrona
+  [9]   - Esvaziar poltronas
+  [10]  - Ver passageiro de uma poltrona
+  [11]  - Salvar informações em arquivo
   [999] - Encerra o programa
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-''')
     try:
@@ -47,9 +48,9 @@ while True:
 
         elif comandos[comando] == "Adicionar passageiro":
             bus_name = input('> Informe o ônibus: ').lower()
-            nome_passageiro = input("Informe o nome do passageiro: ").lower()
-            rg = int(input("Informe o rg do passageiro: "))
-            assento = int(input("Informe o assento"))
+            nome_passageiro = input("> Informe o nome do passageiro: ").lower()
+            rg = int(input("> Informe o rg do passageiro: "))
+            assento = int(input("> Informe o assento: "))
             try:
                 resultado = empresa.add_passenger(bus_name, Passageiro(nome_passageiro, rg), assento)
                 if resultado:
@@ -132,7 +133,7 @@ while True:
 
         elif comandos[comando] == "Assento tem passageiro":
             bus_name = input("> Informe o ônibus: ").lower()
-            assento = int(input("Informe o assento: "))
+            assento = int(input("> Informe o assento: "))
             try:
                 print(f"O passageiro {empresa.search_seat_passenger(bus_name, assento)}")
 
@@ -147,11 +148,11 @@ while True:
 
         elif comandos[comando] == "remover passageiro":
             bus_name = input("> Informe o ônibus: ").lower()
-            assento = int(input("Informe o assento: "))
+            assento = int(input("> Informe o assento: "))
             try:
                 print(f"{empresa.search_seat_passenger(bus_name, assento)}")
                 print("Deseja excluir esse cliente? S - sim, N - não")
-                confirmacao = input("Digite sua resposta: ").lower()
+                confirmacao = input("> Digite sua resposta: ").lower()
                 if confirmacao == "s":
                     empresa.remove_passenger(bus_name, assento)
                     print("Cliente removido com sucesso")
@@ -165,7 +166,13 @@ while True:
             except AssentoError as error:
                 print(error)
 
-        elif comando == "Exit":
+        elif comandos[comando] == "Salvar informação":
+            bus_name = input("> Informe o ônibus: ")
+            try:
+                empresa.create_txt(bus_name)
+            except OnibusError as error:
+                print(error)
+        elif comandos[comando] == "Exit":
             break
 
     except AssertionError:

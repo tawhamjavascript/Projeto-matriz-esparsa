@@ -6,5 +6,8 @@ class Passageiro:
     def get_nome(self):
         return self.__nome
     
+    def get_rg(self):
+        return self.__rg
+    
     def __str__(self):
         return f'{self.__nome} RG {self.__rg}'

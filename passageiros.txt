@@ -1,0 +1,4 @@
+Linha: lel
+Poltrona;passageiro;rg
+12;louise ; 456
+23;taw ; 123

@@ -74,5 +74,5 @@ def main():
     if pid == 999: 
       print("Programa Encerrado!")
       break
-
-main()
+if __name__ == '__main__':
+  main()
