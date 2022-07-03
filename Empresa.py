@@ -30,11 +30,10 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            bus.tamanho()
+            return bus.tamanho()
 
         except AssentoError:
             raise OnibusError("Onibus não existe")
-
 
     def bus_is_empty(self, bus_name) -> bool:
         """
@@ -63,11 +62,10 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.isFull()
+            return bus.isFull()
         
         except AssertionError:
             raise OnibusError("Onibus não existe")
-       
 
     def search_seat_available(self, bus_name) -> int:
         """
@@ -104,11 +102,13 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            assert numero_poltrona > 0 and numero_poltrona <= self.__bus.tamanho(), AssentoError("Assento não existe")
-            return bus.pesquisar(numero_poltrona)
+            return bus.search(numero_poltrona)
 
         except IndexError:
             raise AssentoError("Assento não existe")
+
+        except PasengerError as error:
+            raise PasengerError(error)
 
         except AssertionError:
             raise OnibusError("Onibus não existe")
@@ -128,7 +128,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.searchPassenger(nome)
+            return bus.searchPassenger(nome)
 
         except IndexError:
             raise PasengerError("Passageiro não existe")
@@ -149,8 +149,8 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            assert numero_poltrona > 0 and numero_poltrona <= self.__bus.tamanho(), AssentoError("Assento não existe")
-            return self.__bus.getPassageiro(numero_poltrona)
+
+            return bus.getPassenger(numero_poltrona)
 
         except IndexError:
             raise AssentoError("Assento não existe")
@@ -170,15 +170,11 @@ class Empresa:
         :return: True se a troca foi bem sucedida ou False se não foi possível
         """
         bus = self.__bus.get(bus_name)
+
         try:
             assert bus is not None
-            assert number_seat_current > 0 and number_seat_current <= self.__bus.tamanho() and number_seat_new > 0 and number_seat_new <= self.__bus.tamanho(), AssentoError("Assento inexistente")
-            resultado =  self.__bus.switchSeat(number_seat_current, number_seat_new)
-            if resultado:
-                return f"troca bem sucedida"
-
-            else:
-                return f"poltrona já está em uso"
+            resultado = bus.switchSeat(number_seat_current, number_seat_new)
+            return resultado
             
         except IndexError:
             raise AssentoError("Assento não existe")
@@ -201,13 +197,8 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            assert number_seat > 0 and number_seat <= self.__bus.tamanho(), AssentoError("Assento inexistente")
-            resultado = self.__bus.add(passenger, number_seat)
-            if resultado:
-                return f"Passageiro alocado no assento {number_seat}"
-
-            else:
-                return f"Assento já está em uso"
+            resultado = bus.add(passenger, number_seat)
+            return resultado
 
         except IndexError:
             raise AssentoError("Assento não existe")
@@ -227,8 +218,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            assert number_seat > 0 and number_seat <= self.__bus.tamanho(), AssentoError("Assento inexistente")
-            return self.__bus.removerPassageiro(number_seat)
+            return bus.remove(number_seat)
 
         except IndexError:
             raise AssentoError("Assento não existe")
@@ -263,7 +253,7 @@ class Empresa:
         bus = self.__bus.get(bus_name)
         try:
             assert bus is not None
-            return self.__bus.showSeat()
+            return bus.showSeat()
 
         except AssertionError:
             raise OnibusError("Onibus não existe")
