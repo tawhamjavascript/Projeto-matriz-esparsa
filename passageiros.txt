@@ -1,4 +1,1 @@
-Linha: tambay
-Poltrona;passageiro;rg
-1;ed ; 123
-12;tawham ; 1223
+Linha: bayeux - jaguaribe - ônibus vazio
